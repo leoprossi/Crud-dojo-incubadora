@@ -2,6 +2,7 @@ package br.com.s2it.incubadora.DojoSolucao.service;
 
 import br.com.s2it.incubadora.DojoSolucao.entity.SugestaoEntity;
 import br.com.s2it.incubadora.DojoSolucao.repository.SugestaoRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class SugestaoService {
 

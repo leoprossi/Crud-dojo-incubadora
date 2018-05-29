@@ -2,12 +2,19 @@ package br.com.s2it.incubadora.DojoSolucao.controller;
 
 import br.com.s2it.incubadora.DojoSolucao.entity.SugestaoEntity;
 import br.com.s2it.incubadora.DojoSolucao.service.SugestaoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@Slf4j
+@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "/sugestoes")
 public class SugestaoController {
@@ -26,11 +33,12 @@ public class SugestaoController {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
-    @PostMapping("/")
-    public void save(@RequestBody SugestaoEntity entity) {
-        service.save(entity);
-//        return ResponseEntity.ok().body(null);
-        this.getAll();
+    @PostMapping(value = "/" , consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> save(@RequestBody SugestaoEntity sugestao, UriComponentsBuilder builder) {
+        service.save(sugestao);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(builder.path("/{id}").buildAndExpand(sugestao.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -40,7 +48,8 @@ public class SugestaoController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

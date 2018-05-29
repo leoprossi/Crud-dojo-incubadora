@@ -16,8 +16,9 @@ public class SugestaoEntity {
     private Long id;
 
     @Column(name = "nome")
-    private String colaborador;
+    private String nome;
 
-    @Column(nullable = false)
-    private String descricao;
+    private String email;
+
+    private String sugestoes;
 }
